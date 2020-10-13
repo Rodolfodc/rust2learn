@@ -1,0 +1,8 @@
+debug/
+target/
+
+**/*.rs.bk
+
+._target
+#for MAC users
+.DS_Store
