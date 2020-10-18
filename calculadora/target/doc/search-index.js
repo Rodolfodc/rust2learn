@@ -1,0 +1,4 @@
+var searchIndex = JSON.parse('{\
+"calculadora":{"doc":"","i":[[4,"BaiscMathOp","calculadora","",null,null],[13,"Sum","","",0,null],[13,"Subtract","","",0,null],[13,"Multiply","","",0,null],[13,"Division","","",0,null],[13,"Invalid","","",0,null],[5,"main","","",null,[[]]],[5,"convert_op_to_int32","","",null,[[["string",3]]]],[5,"identify_operation","","",null,[[["string",3]],["baiscmathop",4]]],[5,"perform_operation","","",null,[[["baiscmathop",4]]]],[11,"from","","",0,[[]]],[11,"into","","",0,[[]]],[11,"try_from","","",0,[[],["result",4]]],[11,"try_into","","",0,[[],["result",4]]],[11,"borrow","","",0,[[]]],[11,"borrow_mut","","",0,[[]]],[11,"type_id","","",0,[[],["typeid",3]]]],"p":[[4,"BaiscMathOp"]]}\
+}');
+addSearchOptions(searchIndex);initSearch(searchIndex);
