@@ -5,6 +5,7 @@ enum BaiscMathOp {
     Subtract,
     Multiply,
     Division,
+    Leave,
     Invalid
 }
 
@@ -16,27 +17,46 @@ fn main() {
         let mut option_choice = String::new();
 
         println!("please select your option: ");
-        println!("1 - Sum ");
-        println!("2 - Subtraction ");
-        println!("3 - Multiply ");
-        println!("4 - Division ");
-        println!("5 - Leave ");
+        println!("[+] Sum ");
+        println!("[-] - Subtraction ");
+        println!("[*] - Multiply ");
+        println!("[/] - Division ");
+        println!("q - Leave ");
 
         io::stdin()
             .read_line(&mut option_choice)
             .expect("Failed to read Option");
-        
+            
         let number_option: u32 = match option_choice.trim().parse() {
             Ok(num) => num,
             Err(_) => continue
         };
 
-        match number_option {
-            1 => println!("The Value of the sum is "),
-            2 => println!("The Value of the subtraction is "),
-            5 => break,
-            _ => println!("please, select a valid option."),
-        };
+        let op = identify_operation(option_choice);
+
+        if option_choice == "q" {
+            break;
+        }
+
+        println!("Please enter the first element to sum");
+
+        io::stdin()
+            .read_line(&mut option_choice)
+            .expect("Failed to read number");
+
+        let n1 = convert_op_to_int32(option_choice);
+
+        println!("Please enter the second element to sum");
+
+        io::stdin()
+            .read_line(&mut option_choice)
+            .expect("Failed to read number");
+
+        let n2 = convert_op_to_int32(option_choice);
+        
+        let res = perform_operation(n1, n2, op);
+
+        println!("The result of the operation is{}", res);
     };
 
     println!("Bye my friend!");
@@ -52,6 +72,7 @@ fn identify_operation(op: String) -> BaiscMathOp {
         "-" => BaiscMathOp::Subtract,
         "*" => BaiscMathOp::Multiply,
         "/" => BaiscMathOp::Division,
+        "q" => BaiscMathOp::Leave,
         _ =>   BaiscMathOp::Invalid
     };
 }
@@ -63,8 +84,11 @@ fn perform_operation(a: i32, b: i32, op: BaiscMathOp) -> i32 {
         BaiscMathOp::Subtract   => a - b,
         BaiscMathOp::Multiply   => a * b,
         BaiscMathOp::Division   => a / b,
+        BaiscMathOp::Leave      => 0,
         BaiscMathOp::Invalid    => 0
     };
 }
+
+
 
 // fn read_to_integer
