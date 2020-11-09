@@ -26,47 +26,62 @@ fn main() {
         io::stdin()
             .read_line(&mut option_choice)
             .expect("Failed to read Option");
-            
-        let number_option: u32 = match option_choice.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue
-        };
 
-        let op = identify_operation(option_choice);
+        let mut splitted: Vec<&str> = option_choice.trim().split(|c| c == '+' || c == '-' || c == '*' || c == '/').collect();
 
-        if option_choice == "q" {
-            break;
+        if option_choice.contains(|c| c == '+' || c == '-' || c == '*' || c == '/'){
+            println!("OK");
         }
 
-        println!("Please enter the first element to sum");
 
+        println!("{}", splitted.len());
+
+        if option_choice.trim() == "q"{
+            break;
+        }
+    
+            
+
+        let op = identify_operation(&option_choice);
+
+        let mut n1 = String::new();
+
+        println!("Please enter the first element to the operation");
         io::stdin()
-            .read_line(&mut option_choice)
+            .read_line(&mut n1)
             .expect("Failed to read number");
 
-        let n1 = convert_op_to_int32(option_choice);
+        let n1: i32 = match n1.trim().parse() {
+                Ok(num) => num,
+                Err(_) => panic!("erro de leitura")
+            };
 
         println!("Please enter the second element to sum");
 
+        let mut n2= String::new();
+
         io::stdin()
-            .read_line(&mut option_choice)
+            .read_line(&mut n2)
             .expect("Failed to read number");
 
-        let n2 = convert_op_to_int32(option_choice);
+        let n2: i32 = match n2.trim().parse() {
+            Ok(num) => num,
+            Err(_) => panic!("erro de leitura")
+        };
         
-        let res = perform_operation(n1, n2, op);
+        let res = match perform_operation(n1, n2, op) {
+            Some(num) => num,
+            None => std::process::exit(1)
+        };
 
-        println!("The result of the operation is{}", res);
+        println!("The result of the operation is {}", res);
     };
 
     println!("Bye my friend!");
 }
 
-fn convert_op_to_int32(num: String) -> i32 {
-    return num.trim().parse::<i32>().unwrap();
-}
 
-fn identify_operation(op: String) -> BaiscMathOp {
+fn identify_operation(op: &String) -> BaiscMathOp {
     return match op.trim() {
         "+" => BaiscMathOp::Sum,
         "-" => BaiscMathOp::Subtract,
@@ -77,18 +92,23 @@ fn identify_operation(op: String) -> BaiscMathOp {
     };
 }
 
-fn perform_operation(a: i32, b: i32, op: BaiscMathOp) -> i32 {
+fn perform_operation(a: i32, b: i32, op: BaiscMathOp) -> Option<i32> {
 
     return match op {
-        BaiscMathOp::Sum        => a + b,
-        BaiscMathOp::Subtract   => a - b,
-        BaiscMathOp::Multiply   => a * b,
-        BaiscMathOp::Division   => a / b,
-        BaiscMathOp::Leave      => 0,
-        BaiscMathOp::Invalid    => 0
+        BaiscMathOp::Sum        => Some(a + b),
+        BaiscMathOp::Subtract   => Some(a - b),
+        BaiscMathOp::Multiply   => Some(a * b),
+        BaiscMathOp::Division   => Some(a / b),
+        BaiscMathOp::Leave      => None,
+        BaiscMathOp::Invalid    => Some(0)
     };
 }
 
 
 
 // fn read_to_integer
+#[test]
+
+fn testperform_operation(){
+    assert_eq!(perform_operation(1,2, BaiscMathOp::Sum), Some(3));
+}
